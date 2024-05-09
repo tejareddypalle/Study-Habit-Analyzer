@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+      /* CSS styles for the username display */
+      #userNameDisplay {
+          color: white; /* Set text color to white */
+          font-size: 18px; 
+          margin-top:30px;
+          text-align:right;
+          
+      }
+      .user-name {
+          margin-left: auto; /* Push user name to the right */
+          margin-right: 30px; /* Add some spacing */
+      }
+      .main-menu {
+          display: flex; /* Set display to flex */
+          align-items: center; /* Center items vertically */
+      }
+  </style>
+</head>
+<body>
+    
+        <header class="main-header clearfix" role="header">
+            <div class="logo">
+              <a href="#">Study Habit Analyzer</a>
+            </div>
+            <a href="#menu" class="menu-link"><i class="fa fa-bars"></i></a>
+            <nav id="menu" class="main-nav" role="navigation">
+              <ul class="main-menu">
+                
+                <li><a href="habit.html">Habits</a>
+                    
+                </li>
+                <li><a href="profile.html">Profile</a>
+                    
+                </li>
+                <!-- <li><a href="session.html">Study Sessions</a>
+                  
+                    <li><a href="goals.html">Goals</a></li>
+                    <li><a href="recommendation.html">Recommendations</a></li> -->
+                    <li><a href="index.html">Logout</a></li>
+              </ul>
+            </nav>
+            <div class="user-name" id="userNameDisplay"></div>
+          </header>
+          <section id="home"></section>
+         
+          <script>
+            // Function to display user's name in the header
+            function displayUserName() {
+                console.log('Displaying username...');
+                // Fetch the username from storage
+                const username = localStorage.getItem('loggedInUser');
+        
+                // Check if the username is available
+                if (username) {
+                    // Get the element where the username will be displayed
+                    const userNameDisplay = document.getElementById('userNameDisplay');
+        
+                    // Log the retrieved username
+                    console.log('Retrieved username:', username);
+        
+                    // Update the inner text of the element with the username
+                    userNameDisplay.innerText = `Welcome, ${username}!`;
+                } else {
+                    console.log('No username found in local storage.');
+                }
+            }
+        
+            // Call the function when the page loads
+            window.onload = displayUserName;
+        </script>
+        
+    
+    
+    <!-- <script src="home.js"></script>
+    <script src="dashboard.js"></script> -->
+</body>
+</html>
