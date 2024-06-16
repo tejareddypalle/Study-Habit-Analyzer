@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Recommendation</title>
+    <style>
+        /* Your CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+            background-color:cadetblue;
+            margin: 0;
+            padding: 0;
+        }
+       
+
+        #recommendationForm {
+            width: 50%;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color:#fff;
+        }
+
+        form {
+            display: grid;
+            grid-gap: 10px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input[type="submit"] {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        #recommendationForm {
+            width: 50%;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            color: brown;
+        }
+
+        form, #reminderSection {
+            display: grid;
+            grid-gap: 6px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="date"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input[type="submit"], button {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover, button:hover {
+            background-color: #45a049;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+        .back-arrow {
+            position: absolute;
+            bottom: 30px;
+            left: 20px;
+            font-size: 70px;
+            color: brown;
+            cursor: pointer;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <h2>Add Recommendation</h2>
+    
+    <a href="habit.html" class="back-arrow">&#8592;</a> 
+    <div id="recommendationForm">
+        <form id="addRecommendationForm">
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" rows="4" required></textarea>
+            <label for="type">Type:</label>
+            <input type="text" id="type" name="type" required>
+            <label for="source">Source:</label>
+            <input type="text" id="source" name="source" required>
+            <label for="rating">Rating:</label>
+            <input type="number" id="rating" name="rating" min="1" max="5" required>
+            <label for="dateAdded">Date Added:</label>
+            <input type="date" id="dateAdded" name="dateAdded" required>
+            <input type="submit" value="Add Recommendation">
+        </form>
+        <div id="reminderSection" style="margin-top: 20px;">
+            <h3>Set Reminder</h3>
+            <label for="reminderDate">Reminder Date:</label>
+            <input type="date" id="reminderDate">
+            <button onclick="setReminder()">Set Reminder</button>
+        </div>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Description</th>
+                    <th>Type</th>
+                    <th>Source</th>
+                    <th>Rating</th>
+                    <th>Date Added</th>
+                </tr>
+            </thead>
+            <tbody id="reminderTableBody"></tbody>
+         </table>
+    </div>
+    <div id="confirmationMessage" style="display: none; text-align: center; margin-top: 20px;">
+        Recommendations added successfully!
+    </div>
+    <script>
+
+if("Notification" in window){
+            Notification.requestPermission().then(function (permission){
+                if(Notification.permission!=="granted")
+                {
+                    alert("please allow notification access");
+                }
+            });
+        }
+
+        function setReminder() {
+            // Get the form values
+            const description = document.getElementById('description').value;
+            const type = document.getElementById('type').value;
+            const source = document.getElementById('source').value;
+            const rating = document.getElementById('rating').value;
+            const dateAdded = document.getElementById('dateAdded').value;
+            const reminderDate = document.getElementById('reminderDate').value;
+
+            // Create a new row in the table
+            const tableBody = document.getElementById('reminderTableBody');
+            const newRow = tableBody.insertRow();
+            newRow.innerHTML = `
+                <td>${description}</td>
+                <td>${type}</td>
+                <td>${source}</td>
+                <td>${rating}</td>
+                <td>${dateAdded}</td>
+              
+            `;
+
+            // Clear the form fields
+            document.getElementById('description').value = '';
+            document.getElementById('type').value = '';
+            document.getElementById('source').value = '';
+            document.getElementById('rating').value = '';
+            document.getElementById('dateAdded').value = '';
+
+            // Clear the reminder date input field
+            document.getElementById('reminderDate').value = '';
+
+            // Show confirmation message
+            document.getElementById('confirmationMessage').style.display = 'block';
+            setTimeout(function () {
+                document.getElementById('confirmationMessage').style.display = 'none';
+            }, 3000); // Hide after 3 seconds
+        }
+        document.getElementById('addRecommendationForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            // Get form values
+            const username = localStorage.getItem('loggedInUser'); 
+            const description = document.getElementById('description').value;
+            const type = document.getElementById('type').value;
+            const source = document.getElementById('source').value;
+            const rating = document.getElementById('rating').value;
+            const dateAdded = document.getElementById('dateAdded').value;
+
+            // Create recommendation object
+            const recommendation = {
+                description: description,
+                type: type,
+                source: source,
+                rating: rating,
+                dateAdded: dateAdded
+            };
+
+            // Retrieve existing user recommendations from local storage
+            let userRecommendations = JSON.parse(localStorage.getItem(username + '_recommendations')) || [];
+
+            // Add the new recommendation to the existing user recommendations
+            userRecommendations.push(recommendation);
+
+            // Save updated recommendations back to local storage
+            localStorage.setItem(username + '_recommendations', JSON.stringify(userRecommendations));
+
+            // Show confirmation message
+            document.getElementById('confirmationMessage').style.display = 'block';
+            // Redirect to profile.html after a delay
+            setTimeout(function() {
+                // window.location.href = 'profile.html';
+            }, 2000); // 2000 milliseconds (2 seconds) delay
+        });
+    </script>
+</body>
+</html>
